@@ -29,16 +29,18 @@
             }
         }
     </select>
-   @* <select asp-for="IngredientiId"
+    @*<select asp-for="IngredientiId"
             multiple="multiple"
             size="10"
             class="form-control mb-2"
             asp-items="@Model.AllIngrdients">
     </select>*@
-    @foreach(var ing in Model.AllIngrdients)
-    {
-        <input class="form-check-inline" type="checkbox" value="@ing.Id" name="IngredientiId" id="@ing.Id" checked="@Model.IngredientiId.Contains(ing.Id)" />
-        <label class="form-label text-light" for="@ing.Id">@ing.Nome</label><br/>
-    }
+    <div class="mt-1">
+        @foreach(var ing in Model.AllIngrdients)
+        {
+            <input class="form-check-inline me-1" type="checkbox" value="@ing.Id" name="IngredientiId" id="@ing.Id" checked="@Model.IngredientiId.Contains(ing.Id)" />
+            <label class="form-label text-light" for="@ing.Id">@ing.Nome&nbsp;&nbsp;&nbsp;</label>
+        }
+    </div>
     <input type="submit" class="btn btn-light mt-3 mx-auto d-block w-auto" value="@(Model.Id == default ? "Salva" : "Aggiorna")"/>
 </form>

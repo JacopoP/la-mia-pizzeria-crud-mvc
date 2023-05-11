@@ -103,15 +103,16 @@ namespace project.Controllers
             model.CategoryID = pizza.CategoryId;
             model.categories = _database.categories.ToList<Category>();
             model.AllIngrdients = _database.ingredienti.ToList<Ingrediente>();
-            //foreach(Ingrediente i in _database.ingredienti.ToList<Ingrediente>())
+            //foreach (Ingrediente i in _database.ingredienti.ToList<Ingrediente>())
             //{
             //    model.AllIngrdients.Add(
             //        new SelectListItem()
             //        {
-            //            Text = i.Nome, Value = i.Id.ToString(),
+            //            Text = i.Nome,
+            //            Value = i.Id.ToString(),
             //        });
             //}
-            foreach(Ingrediente i in pizza.Ingredienti)
+            foreach (Ingrediente i in pizza.Ingredienti)
             {
                 model.IngredientiId.Add(i.Id);
             }

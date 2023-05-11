@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using project.Models;
 
 namespace project
 {
-    public class PizzeriaContext : DbContext
+    public class PizzeriaContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Pizza> pizze { get; set; }        
         public DbSet<Category> categories { get; set; }

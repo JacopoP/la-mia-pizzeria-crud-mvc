@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using project.Models;
+using Microsoft.AspNetCore.Identity;
+using project;
 
 namespace project
 {
@@ -14,6 +16,9 @@ namespace project
             builder.Services.AddDbContext<PizzeriaContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("MainConnection"))
             );
+
+                        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<PizzeriaContext>();
             builder.Services.AddScoped<ICustomLog, CustomLogConsole>();
 
             var app = builder.Build();
@@ -31,11 +36,15 @@ namespace project
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Pizza}/{action=Index}/{id?}");
+
+            app.MapRazorPages();
 
             app.Run();
         }
