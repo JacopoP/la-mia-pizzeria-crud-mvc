@@ -3,6 +3,7 @@ using project.Models;
 using project.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace project.Controllers
 {
@@ -16,6 +17,15 @@ namespace project.Controllers
             _database = database;
             _logged = logged;
         }
+
+        [HttpGet]
+        public IActionResult Landing()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
         public IActionResult Index()
         {
             List<Pizza> lista = _database.pizze.ToList<Pizza>();
@@ -23,6 +33,8 @@ namespace project.Controllers
             return View(lista);
         }
 
+        [HttpGet]
+        [Authorize]
         public IActionResult PizzaDetail(int id)
         {
             Pizza pizza = _database.pizze.Include(pizza => pizza.Category).Include(pizza => pizza.Ingredienti).FirstOrDefault(x => x.Id == id);
@@ -34,6 +46,8 @@ namespace project.Controllers
             return View(pizza);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult PizzaForm()
         {
             PizzaFormModel model = new PizzaFormModel();
@@ -53,6 +67,7 @@ namespace project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult CreatePizza(PizzaFormModel data)
         {
             if (!ModelState.IsValid)
@@ -87,6 +102,8 @@ namespace project.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult EditPizza(int id)
         {
             Pizza pizza =_database.pizze.Include(pizza => pizza.Ingredienti).FirstOrDefault(x => x.Id == id);
@@ -121,6 +138,7 @@ namespace project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
         public ActionResult UpdatePizza(int id, PizzaFormModel data) 
         {
             Pizza pizza = _database.pizze.Include(pizza => pizza.Ingredienti).FirstOrDefault(x => x.Id == id);
@@ -158,6 +176,7 @@ namespace project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult DeletePizza(int id)
         {
             Pizza pizza = _database.pizze.Where(x => x.Id == id).FirstOrDefault();

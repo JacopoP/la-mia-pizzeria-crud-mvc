@@ -17,7 +17,8 @@ namespace project
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("MainConnection"))
             );
 
-                        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PizzeriaContext>();
             builder.Services.AddScoped<ICustomLog, CustomLogConsole>();
 
@@ -42,7 +43,7 @@ namespace project
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Pizza}/{action=Index}/{id?}");
+                pattern: "{controller=Pizza}/{action=Landing}/{id?}");
 
             app.MapRazorPages();
 
