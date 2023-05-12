@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using project.Models;
 using Microsoft.AspNetCore.Identity;
 using project;
+using System.Text.Json.Serialization;
 
 namespace project
 {
@@ -21,6 +22,9 @@ namespace project
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<PizzeriaContext>();
             builder.Services.AddScoped<ICustomLog, CustomLogConsole>();
+
+            builder.Services.AddControllers()
+                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             var app = builder.Build();
 
